@@ -1,5 +1,5 @@
 <template>
-    <Header :link="'Feedback'">Create Question</Header>
+    <Header :link="'Feedback'" class="header">Create Question</Header>
 
     <div class="create-header">
         <ion-textarea :auto-grow="true" v-model="questionTitle" class="crate-feedback-title" placeholder="Add Question"/>
@@ -56,6 +56,10 @@
     body
         background-color: #1400FF
         margin: 0px
+
+    .header
+        position: sticky 
+        top: 0
 
     ion-textarea
         padding-left: 0px

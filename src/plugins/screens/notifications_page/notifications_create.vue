@@ -1,5 +1,5 @@
 <template>
-    <Header :link="'Notifications'">Create Notification</Header>
+    <Header :link="'Notifications'" class="header">Create Notification</Header>
 
     <div class="create-header">
         <ion-textarea :auto-grow="true" v-model="addTitle" class="create-title" placeholder="Add Notification Title"/>
@@ -57,6 +57,10 @@
     body
         background-color: #1400FF
         margin: 0px
+
+    .header
+        position: sticky 
+        top: 0
 
     ion-textarea
         padding-left: 0px

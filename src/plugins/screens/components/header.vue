@@ -5,7 +5,7 @@
                 <router-link :to="{name: link}">
                     <div class="back-arrow"/>
                 </router-link>
-                <div style="margin-right: 20px;">
+                <div class="title">
                     <slot>cock</slot>
                 </div>
             </ion-title>
@@ -45,7 +45,12 @@
         font-size: 40px
         text-align: center
         color: black
-        // position: fixed
+        position: sticky 
+        top: 0
+
+    .title
+        margin-right: 20px
+
 
     .back-arrow
         border: solid black 

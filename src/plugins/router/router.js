@@ -44,6 +44,12 @@ const routes = [
     path: '/photos',
     name: 'Photos',
     component: () => import('@/plugins/screens/photos_page/photos_page.vue')
+  },
+
+  {
+    path: '/schedule',
+    name: 'Schedule',
+    component: () => import('@/plugins/screens/schedule/schedule.vue')
   }
 ]
 

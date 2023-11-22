@@ -4,6 +4,7 @@ export const useMainStore = defineStore('myStore',{
     state: () =>{
         return{
             admin: true,
+            aboutText: 'cock and balls',
             notifications: [
                 {
                     title: "lol",
@@ -84,7 +85,36 @@ export const useMainStore = defineStore('myStore',{
                     id: 7,
                 }
             ],
-            aboutText: 'cock and balls'
+            schedule:[
+                {
+                    name: 'Prichod',
+                    date: '23.7.2023',
+                    start: 870, //14:30 v minutach
+                    end: 900, //15:00 v minutach
+                    id: 0
+                },
+                {
+                    name: 'Odchod',
+                    date: '23.7.2023',
+                    start: 1140, //19:00 v minutach
+                    end: 1200, //20:00 v minutach
+                    id: 1
+                },
+                {
+                    name: 'Prichod',
+                    date: '24.7.2023',
+                    start: 870, //14:30 v minutach
+                    end: 900, //15:00 v minutach
+                    id: 0
+                },
+                {
+                    name: 'Odchod',
+                    date: '24.7.2023',
+                    start: 1140, //19:00 v minutach
+                    end: 1200, //20:00 v minutach
+                    id: 1
+                },
+            ]
         }
     },
 

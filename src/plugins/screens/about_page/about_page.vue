@@ -1,5 +1,5 @@
 <template>
-    <Header :link="'Home'">About</Header>
+    <Header :link="'Home'" class="header">About</Header>
     <div v-if="admin">
         <p class="infoText">Tap to edit</p>
         <ion-textarea placeholder="cock" :auto-grow="true" v-model="editAboutText" class="aboutText" @ion-input="editStoreText()"/>
@@ -50,6 +50,10 @@
     body
         background-color: #1400FF
         margin: 0px
+
+    .header
+        position: sticky 
+        top: 0
 
     .aboutText
         font-size: 30px 

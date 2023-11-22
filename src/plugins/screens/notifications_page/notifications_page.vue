@@ -1,9 +1,10 @@
 <template>
-    <Header :link="'Home'">Notifications</Header>
+    <Header :link="'Home'" class="header">Notifications</Header>
+
     <div v-for="notification in notifications" :key="notification.id" class="notif">
         <router-link :to="{name: 'Notifications-Detail', params: {id: notification.id}}">
             <div>
-                <div class="title">{{ notification.title }}</div>
+                <div class="notif-title">{{ notification.title }}</div>
                 <div class="desc">{{ notification.desc }}</div>
                 <div class="time">{{ notification.time }}</div>
             </div>
@@ -40,11 +41,15 @@
         background-color: #1400FF
         margin: 0px
 
+    .header
+        position: sticky 
+        top: 0
+
     .notif
         border-bottom: solid black 1px 
         padding-top: 15px
 
-    .title
+    .notif-title
         font-size: 25px
         padding-left: 10px
 

@@ -1,5 +1,5 @@
 <template>
-    <Header :link="'Notifications'">Details</Header>
+    <Header :link="'Notifications'" class="header">Details</Header>
     
     <div v-for="notification in notifications.filter(detail => detail.id == this.$route.params.id)">
         <div class="detail-header">
@@ -31,6 +31,10 @@
     body
         background-color: #1400FF
         margin: 0px
+
+    .header
+        position: sticky 
+        top: 0
 
     .detail-header
         display: inline-block 

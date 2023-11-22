@@ -1,10 +1,10 @@
 <template>
-    <Header :link="'Home'">Photos</Header>
+    <Header :link="'Home'" class="header">Photos</Header>
 
-    <div style="display: grid; grid-template-columns: auto auto;">
-        <div v-for="photo in photos" :key="photo.id" style="position: relative">
-            <img :src="photo.url" style="width: 89%; padding: 20px; display: block">
-            <ion-icon class="delete-button" v-if="admin" style="" @click="deletePhoto(photo.id)" :icon="removeCircleOutline"/>
+    <div class="photoGrid">
+        <div v-for="photo in photos" :key="photo.id" class="relative">
+            <img :src="photo.url" class="photo">
+            <ion-icon class="delete-button" v-if="admin" @click="deletePhoto(photo.id)" :icon="removeCircleOutline"/>
         </div>
     </div>
 
@@ -52,6 +52,22 @@
         background-color: #1400FF
         margin: 0px
 
+    .header
+        position: sticky 
+        top: 0
+
+    .photoGrid
+        display: grid 
+        grid-template-columns: auto auto
+
+    .photo
+        width: 87% 
+        padding: 20px 
+        display: block
+
+    .relative
+        position: relative
+
     .delete-button
         padding-left: 25px 
         font-size: 40px 
@@ -72,5 +88,4 @@
         position: fixed
         bottom: 0
         right: 0
-        border: black 5px solid
 </style>

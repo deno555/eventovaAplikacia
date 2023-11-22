@@ -20,7 +20,9 @@
             </div>
             
             <div class="grey button">
-                <p>Schedule</p>
+                <router-link :to="{name: 'Schedule'}">
+                    <p>Schedule</p>
+                </router-link>
             </div>
             
             <div class="grey button">
