@@ -3,23 +3,18 @@
 
 	<div class="switchContainer">
 		<div @click="eventSwitch = false" :class="{'on' : !eventSwitch, 'off' : eventSwitch}" class="switch">Calendar</div>
-		<div @click="eventSwitch = true" :class="{'on' : eventSwitch, 'off' : !eventSwitch}" class="switch">All events</div>
+		<router-link :to="{name: 'ScheduleAll'}">
+			<div @click="eventSwitch = true" :class="{'on' : eventSwitch, 'off' : !eventSwitch}" class="switch">All events</div>
+		</router-link>
 	</div>
 
 	<div class="dayContainer" style="overflow-x: scroll; white-space: nowrap;">
-		<!-- :class="{'dayActive': selectedDate == item.uniqueDates}" -->
 		<div class="day" v-for="date in uniqueDates" :key="date" @click="showEventsForDate(date)">
-			<!-- <p>{{ item.dayName }}</p>
-			<p>{{ item.formattedDate }}</p> -->
-			<p>{{ date }}</p>
+			<p>{{ formatDateAndDay(date).formattedDate }}</p>
+			<p>{{ formatDateAndDay(date).dayOfWeek }}</p>
 		</div>
 	</div>
 
-    <button v-for="date in uniqueDates" :key="date" @click="showEventsForDate(date)">
-      {{ formatDate(new Date(date)) }}
-    </button>
-
-	<h2>Timetable</h2>
 	<table style="border: black 1px solid; width: 100%; border-collapse: collapse">
 		<tbody>
 			<tr v-for="time in times" :key="time" style="height: 100px;">
@@ -27,7 +22,7 @@
 				<td :class="{ 'filled-cell': hasContent(time, 0) }" style="width: 25%; border: black 1px solid;">{{ getEventForTime(time, 0) }}</td>
 				<td :class="{ 'filled-cell': hasContent(time, 1) }" style="width: 25%; border: black 1px solid;">{{ getEventForTime(time, 1) }}</td>
 				<td :class="{ 'filled-cell': hasContent(time, 2) }" style="width: 25%; border: black 1px solid;">{{ getEventForTime(time, 2) }}</td>
-				<td :class="{ 'filled-cell': hasContent(time, 3) }" style="width: 15%; border: black 1px solid; font-size: 40px; font-weight: 800; padding-left: 25px;">{{ hasContent(time, 3) ? '+' : '' }}</td>
+				<td @click="moreThan4(time)" :class="{ 'filled-cell': hasContent(time, 3) }" style="width: 15%; border: black 1px solid; font-size: 40px; font-weight: 800; text-align: center">{{ hasContent(time, 3) ? '+' : '' }}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -48,78 +43,34 @@
 				eventSwitch: false,
 				selectedDate: null,
 				formattedSchedule: [],
-				schedule:[
-					{
-						name: 'Prichod',
-						date: new Date('2023-07-23'),
-						start: 870, //14:30 v minutach
-						end: 930, //15:00 v minutach
-						id: 0
-					},
-					{
-						name: 'Odchod',
-						date: new Date('2023-07-23'),
-						start: 1140, //19:00 v minutach
-						end: 1200, //20:00 v minutach
-						id: 1
-					},
-					{
-						name: 'Prichod',
-						date: new Date('2023-07-24'),
-						start: 870, //14:30 v minutach
-						end: 900, //15:00 v minutach
-						id: 2
-					},
-					{
-						name: 'Odchod',
-						date: new Date('2023-07-24'),
-						start: 1140, //19:00 v minutach
-						end: 1200, //20:00 v minutach
-						id: 3
-					},
-					{
-						name: 'Prichod',
-						date: new Date('2023-07-25'),
-						start: 1140, //19:00 v minutach
-						end: 1200, //20:00 v minutach
-						id: 4
-					},
-				],
 			}
 		},
 
 		mounted() {
-			// Set the selectedDate to the date of the first event by default
 			if (this.schedule.length > 0) {
 				this.selectedDate = this.schedule[0].date;
 			}
-
-			this.formatSchedule();
 		},
 
 		computed: {
+			...mapStores(useMainStore),
+            ...mapState(useMainStore, ['schedule']),
+
 			times() {
-				const start = Math.min(...this.schedule.map(item => item.start));
-				const end = Math.max(...this.schedule.map(item => item.end));
-				const times = [];
+				const start = Math.min(...this.schedule.map(item => item.start))
+				const end = Math.max(...this.schedule.map(item => item.end))
+				const times = []
 
 				for (let i = start; i <= end; i += 30) {
-					times.push(i);
+					times.push(i)
 				}
 
-				return times;
+				return times
 			},
 
 			uniqueDates() {
 				return [...new Set(this.schedule.map(item => item.date.toISOString().split('T')[0]))];
 			},
-
-			selectedDateEvents() {
-				if (this.selectedDate) {
-					return this.schedule.filter(item => this.isSameDay(item.date, this.selectedDate));
-				}
-				return [];
-			}
 		},
 
 		methods: {
@@ -141,13 +92,6 @@
 				return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 			},
 
-			formatDate(date) {
-				const year = date.getFullYear();
-				const month = String(date.getMonth() + 1).padStart(2, '0');
-				const day = String(date.getDate()).padStart(2, '0');
-				return `${year}-${month}-${day}`;
-			},
-
 			showEventsForDate(date) {
 				this.selectedDate = new Date(date);
 			},
@@ -167,37 +111,30 @@
 				return content.trim() !== '';
 			},
 
-			formatSchedule() {
-				const uniqueDates = [...new Set(this.schedule.map(item => item.date.toDateString()))];
-				this.formattedSchedule = uniqueDates.map(dateString => {
-					const date = new Date(dateString);
-					const dayName = this.getDayName(date.getDay());
-					const formattedDate = this.formatDate(date);
-					return { dayName, formattedDate };
-				});
+			moreThan4(time){
+				if(this.hasContent(time, 3)) window.location.href = '/schedule/all'
 			},
 
-			hasContent(time, column = null) {
-				const content = column !== null ? this.getEventForTime(time, column) : this.formatTime(time);
-				return content.trim() !== '';
-			},
+			formatDateAndDay(inputDate) {
+				const dateObject = new Date(inputDate);
 
+				const day = dateObject.getDate().toString().padStart(2, '0');
+				const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+				const year = dateObject.getFullYear();
 
+				const formattedDate = `${day}.${month}.${year}`;
 
+				const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+				const dayIndex = dateObject.getDay();
+				const dayOfWeek = daysOfWeek[dayIndex];
 
-			getDayName(dayIndex) {
-				const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-				return days[dayIndex];
-			},
+				return {
+					formattedDate,
+					dayOfWeek
+				};
 
-			formatDate(date) {
-				const day = date.getDate();
-				const month = date.getMonth() + 1;
-				const year = date.getFullYear();
-				return `${day}/${month}/${year}`;
-			},
+			}
 		}
-
 	}
 </script>
 
@@ -216,6 +153,9 @@
 		color: white
 		position: sticky 
 		top: 0
+
+		a
+			color: white
 	
 	.switch
 		padding: 15px 0 

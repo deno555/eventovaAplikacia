@@ -48,6 +48,20 @@
                     <p>Photos</p>
                 </router-link>
             </div>
+
+            <button @click="test">
+                cock
+            </button>
+
+            <button @click="test2">
+                cock2
+            </button>
+
+            <input v-model="cock">
+
+            <div>
+                {{ cock2 }}
+            </div>
         </div>
     </div>
     </template>
@@ -57,6 +71,7 @@
     import {IonIcon} from '@ionic/vue'
     import { mapStores, mapState } from 'pinia'
     import { useMainStore } from '@/plugins/stores/store.js'
+    import axios from 'axios'
 
     export default {
         components:{
@@ -66,6 +81,9 @@
         data() {
             return {
                 cogOutline,
+                cock: 'cock',
+                cock2: null,
+
             }
         },
 
@@ -73,6 +91,21 @@
             ...mapStores(useMainStore),
             ...mapState(useMainStore, ['admin']),
         },
+        
+        methods:{
+            test(){
+                axios.post('http://localhost:3000/events',{
+                    "eventName": this.cock
+                })
+                console.log('post ' + this.cock)
+            },
+            test2(){
+                axios.get('http://localhost:3000/events').then((response) =>
+			{
+				this.cock2 = response.data
+			})
+            }
+        }
     }
 </script>
 

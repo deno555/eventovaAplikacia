@@ -88,33 +88,47 @@ export const useMainStore = defineStore('myStore',{
             schedule:[
                 {
                     name: 'Prichod',
-                    date: '23.7.2023',
+                    date: '2023-07-23',
                     start: 870, //14:30 v minutach
-                    end: 900, //15:00 v minutach
+                    end: 930, //15:00 v minutach
                     id: 0
                 },
                 {
                     name: 'Odchod',
-                    date: '23.7.2023',
+                    date: '2023-07-23',
                     start: 1140, //19:00 v minutach
                     end: 1200, //20:00 v minutach
                     id: 1
                 },
                 {
                     name: 'Prichod',
-                    date: '24.7.2023',
+                    date: '2023-07-24',
                     start: 870, //14:30 v minutach
                     end: 900, //15:00 v minutach
-                    id: 0
+                    id: 2
                 },
                 {
                     name: 'Odchod',
-                    date: '24.7.2023',
+                    date: '2023-07-24',
                     start: 1140, //19:00 v minutach
                     end: 1200, //20:00 v minutach
-                    id: 1
+                    id: 3
                 },
-            ]
+                {
+                    name: 'Prichod',
+                    date: '2023-07-25',
+                    start: 1140, //19:00 v minutach
+                    end: 1200, //20:00 v minutach
+                    id: 4
+                },
+                {
+                    name: 'Prichod',
+                    date: '2023-08-25',
+                    start: 1140, //19:00 v minutach
+                    end: 1200, //20:00 v minutach
+                    id: 4
+                },
+            ],
         }
     },
 

@@ -50,6 +50,28 @@ const routes = [
     path: '/schedule',
     name: 'Schedule',
     component: () => import('@/plugins/screens/schedule/schedule.vue')
+  },
+  {
+    path: '/schedule/all',
+    name: 'ScheduleAll',
+    component: () => import('@/plugins/screens/schedule/schedule_all.vue')
+  },
+
+  {
+    path: '/select',
+    name: 'selectEvent',
+    component: () => import('@/plugins/screens/select_event/select_event.vue')
+  },
+
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/plugins/screens/admin/admin.vue')
+  },
+  {
+    path: '/admin/add_detail',
+    name: 'addDetail',
+    component: () => import('@/plugins/screens/admin/add_detail.vue')
   }
 ]
 
