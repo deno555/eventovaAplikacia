@@ -55,7 +55,7 @@ const routes = [
     path: '/schedule/all',
     name: 'ScheduleAll',
     component: () => import('@/plugins/screens/schedule/schedule_all.vue')
-  },
+  }, 
 
   {
     path: '/select',

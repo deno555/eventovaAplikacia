@@ -1,12 +1,12 @@
 <template>
     <Header :link="'Notifications'" class="header">Details</Header>
     
-    <div v-for="notification in notifications.filter(detail => detail.id == this.$route.params.id)">
+    <div v-for="notification in notifs.filter(detail => detail.id == this.$route.params.id)">
         <div class="detail-header">
             <div class="detail-title">{{ notification.title }}</div>
             <div class="detail-time">{{ notification.time }}</div>
         </div>
-        <div class="detail-desc">{{ notification.desc }}</div>
+        <div class="detail-desc">{{ notification.description }}</div>
     </div>
 </template>
 
@@ -20,6 +20,12 @@
             Header,
         },
 
+        data(){
+            return{
+                notifs: JSON.parse(localStorage.getItem('notifications'))
+            }
+        },
+
         computed:{
             ...mapStores(useMainStore),
             ...mapState(useMainStore, ['notifications']),
@@ -28,17 +34,13 @@
 </script>
 
 <style lang="sass">
-    body
-        background-color: #1400FF
-        margin: 0px
-
     .header
         position: sticky 
         top: 0
 
     .detail-header
         display: inline-block 
-        border-bottom: black 1px solid 
+        border-bottom: black 2px solid 
         width: 100%
 
         .detail-title
@@ -50,6 +52,7 @@
             width: 80%
             --highlight-color-focused: none
             text-transform: capitalize
+            color: white
 
         .detail-time
             font-size: 20px

@@ -2,7 +2,7 @@
     <Header :link="'Home'" class="header">About</Header>
     <div v-if="admin">
         <p class="infoText">Tap to edit</p>
-        <ion-textarea placeholder="cock" :auto-grow="true" v-model="editAboutText" class="aboutText" @ion-input="editStoreText()"/>
+        <ion-textarea placeholder="placeholder" :auto-grow="true" v-model="editAboutText" class="aboutText" @ion-input="editStoreText()"/>
     </div>
 
     <div v-else class="aboutText">{{ this.editAboutText }}</div>
@@ -24,7 +24,7 @@
 
         computed:{
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['aboutText', 'admin']),
+            ...mapState(useMainStore, ['admin']),
         },
         
         data(){
@@ -47,10 +47,6 @@
 </script>
 
 <style lang="sass">
-    body
-        background-color: #1400FF
-        margin: 0px
-
     .header
         position: sticky 
         top: 0
@@ -59,8 +55,8 @@
         font-size: 30px 
         color: white 
         text-transform: capitalize 
-        padding-left: 10px
-        padding-top: 10px
+        padding-left: 21px
+        padding-top: 18px
         --highlight-color-focused: none
         text-transform: capitalize
 

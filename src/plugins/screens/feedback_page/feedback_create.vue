@@ -16,15 +16,17 @@
 </template>
 
 <script>
+	import axios from 'axios'
     import Header from '@/plugins/screens/components/header.vue'
-    import { IonTextarea } from '@ionic/vue'
+    import { IonTextarea, IonButton } from '@ionic/vue'
     import { mapStores, mapState } from 'pinia'
     import { useMainStore } from '@/plugins/stores/store.js'
 
     export default {
         components: {
             Header,
-            IonTextarea
+            IonTextarea,
+            IonButton
         },
 
         data(){
@@ -36,27 +38,41 @@
 
         computed:{
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['feedback']),
+            ...mapState(useMainStore, ['feedback', 'id']),
         },
 
         methods:{
+            // addQuestion(){
+            //     this.feedback.push({
+            //         question: this.questionTitle,
+            //         type: this.type,
+            //         id: this.feedback.length,
+            //         value: 0
+            //     })
+            // },
             addQuestion(){
-                this.feedback.push({
+                axios.post(`https://letny-projekt-be.onrender.com/events/${this.id}/details/feedback`, {
+					feedback: {
+						question: this.questionTitle,
+						type: this.type,
+						id: localStorage.getItem('notifications') ? JSON.parse(localStorage.getItem('notifications'))?.length + 1 : 1,
+                        value: 0
+					}
+				}).then(console.log("added feedback"))
+                const temp = JSON.parse(localStorage.getItem('feedback'))
+                temp.push({
                     question: this.questionTitle,
                     type: this.type,
-                    id: this.feedback.length,
                     value: 0
                 })
-            }
+
+                localStorage.setItem('feedback', JSON.stringify(temp))
+            },
         }
     }
 </script>
 
 <style lang="sass">
-    body
-        background-color: #1400FF
-        margin: 0px
-
     .header
         position: sticky 
         top: 0

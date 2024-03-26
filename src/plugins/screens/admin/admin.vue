@@ -1,6 +1,7 @@
 <template>
 	<div style="border: 1px solid black;">
 		<button @click="refreshEvents">refresh</button>
+		<button @click="test">local</button>
 		<div>
 			<p style="font-size: 20px;" v-for="event in allEvents" :key="event.id">{{ + event.id + ") " + event.name }}</p>
 		</div>
@@ -68,37 +69,37 @@ export default {
 	},
 
 	mounted(){
-		axios.get('http://localhost:3000/events').then((response) => {
+		axios.get('https://letny-projekt-be.onrender.com/events').then((response) => {
 			this.allEvents = response.data
 		});
-		axios.get(`http://localhost:3000/events/${this.id}/details`).then((response) => {
+		axios.get(`https://letny-projekt-be.onrender.com/events/${this.id}/details`).then((response) => {
 			this.eventDetail = response.data
 		})
 	},
 
 	methods: {
 		refreshEvents(){
-			axios.get('http://localhost:3000/events').then((response) => {
+			axios.get('https://letny-projekt-be.onrender.com/events').then((response) => {
 			this.allEvents = response.data
 			})
 
-			axios.get(`http://localhost:3000/events/${this.id}/details`).then((response) => {
+			axios.get(`https://letny-projekt-be.onrender.com/events/${this.id}/details`).then((response) => {
 				this.eventDetail = response.data
 			})
 		},
 
 		addEvent(){
-			axios.post('http://localhost:3000/events', {
+			axios.post('https://letny-projekt-be.onrender.com/events', {
 				"name": this.name,
 			})
 		},
 
 		deleteEvent(){
-			axios.delete(`http://localhost:3000/events/${this.delete_id}`)
+			axios.delete(`https://letny-projekt-be.onrender.com/events/${this.delete_id}`)
 		},
 
 		addNotif(){
-			axios.post(`http://localhost:3000/events/${this.id}/details`, {
+			axios.post(`https://letny-projekt-be.onrender.com/events/${this.id}/details`, {
 				notifications: {
 					title: 'cock',
 					desc: 'balls',
@@ -106,15 +107,15 @@ export default {
 					id: 2
 				}
 			})
+		},
+		test(){
+			localStorage.setItem('cock', 'cock')
 		}
 	}
 }
 </script>
 
 <style lang="sass">
-body
-	background-color: #1400FF
-	margin: 0px
 a
 	text-decoration: none
 	color: inherit

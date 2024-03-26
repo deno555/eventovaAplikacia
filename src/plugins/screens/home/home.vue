@@ -1,179 +1,173 @@
 <template>
-    <div class="home-header">
-        <img src="@/plugins/assets/placeholder.png" height="117">
-        
-        <div v-if="admin" class="grey admin-settings">
-            <ion-icon :icon="cogOutline"/>
-            <p>Event Setting</p>
-        </div>
+	<div class="home-header">
+		<img class="logo" src="https://images-ext-1.discordapp.net/external/mfkb-IbLvGU-dQrdxBVYfMDPakR0-YaMl-LLm1HtBU0/https/mosaic.fxtwitter.com/jpeg/1771976260295516602/GJdS-UMWYAAoi8J/GJdS-37WEAAswNQ?format=webp&width=915&height=670">
+		<div class="title">
+			<p>{{ allEvents.find(event => event?.id == id)?.name }}</p>
+		</div>
+	</div>
 
-    </div>
+	<div class="selects">
+		<div class="selects__row">
+			<router-link :to="{name: ''}">
+				<div class="selects__row__button" style="margin-right: 17px;">
+					<p>Discussion</p>
+					<ion-icon :icon="ChatBubbles"/>
+				</div>
+			</router-link>
 
-    <div class="grey event-name">
-        <p>Event Name</p>
-    </div>
+			<router-link :to="{name: 'Schedule'}">
+				<div class="selects__row__button">
+					<p>Schedule</p>
+					<ion-icon :icon="Calendar"/>
+				</div>
+			</router-link>
+		</div>
 
-    <div class="selects">
-        <div class="grid">
-            <div class="grey button">
-                <p>Discussion</p>
-            </div>
-            
-            <div class="grey button">
-                <router-link :to="{name: 'Schedule'}">
-                    <p>Schedule</p>
-                </router-link>
-            </div>
-            
-            <div class="grey button">
-                <router-link :to="{name: 'Notifications'}">
-                    <p>Notification</p>
-                </router-link>
-            </div>
-            
-            <div class="grey button">
-                <router-link :to="{name: 'About'}">
-                    <p class="event">About the event</p>
-                </router-link>
-            </div>
-            
-            <div class="grey button">
-                <router-link :to="{name: 'Feedback'}">
-                    <p>Feedback</p>
-                </router-link>
-            </div>
-            
-            <div class="grey button">
-                <router-link :to="{name: 'Photos'}">
-                    <p>Photos</p>
-                </router-link>
-            </div>
+		<div class="selects__row">
+			<router-link :to="{name: 'Notifications'}">
+				<div class="selects__row__button" style="margin-right: 17px;">
+					<p>Notifications</p>
+					<ion-icon :icon="Bell"/>
+				</div>
+			</router-link>
 
-            <button @click="test">
-                cock
-            </button>
+			<router-link :to="{name: 'About'}">
+				<div class="selects__row__button">
+					<p>About The Event</p>
+				</div>
+			</router-link>
+		</div>
 
-            <button @click="test2">
-                cock2
-            </button>
+		<div class="selects__row">
+			<router-link :to="{name: 'Feedback'}">
+				<div class="selects__row__button" style="margin-right: 17px;">
+					<p>Feedback</p>
+					<ion-icon :icon="Speaker"/>
+				</div>
+			</router-link>
 
-            <input v-model="cock">
-
-            <div>
-                {{ cock2 }}
-            </div>
-        </div>
-    </div>
-    </template>
+			<router-link :to="{name: 'Photos'}">
+				<div class="selects__row__button">
+					<p>Photos</p>
+					<ion-icon :icon="Photo"/>
+				</div>
+			</router-link>
+		</div>
+	</div>
+</template>
 
 <script>
-    import {cogOutline} from 'ionicons/icons'
-    import {IonIcon} from '@ionic/vue'
-    import { mapStores, mapState } from 'pinia'
-    import { useMainStore } from '@/plugins/stores/store.js'
-    import axios from 'axios'
+	import {cogOutline} from 'ionicons/icons'
+	import {IonIcon} from '@ionic/vue'
+	import { mapStores, mapState } from 'pinia'
+	import { useMainStore } from '@/plugins/stores/store.js'
+	import axios from 'axios'
+	import ChatBubbles from '@/plugins/assets/chatbubbles-outline.svg'
+	import Calendar from '@/plugins/assets/calendar-outline.svg'
+	import Bell from '@/plugins/assets/notifications.svg'
+	import Speaker from '@/plugins/assets/vector.svg'
+	import Photo from '@/plugins/assets/vector-1.svg'
 
-    export default {
-        components:{
-            IonIcon
-        },
+	export default {
+		components:{
+			IonIcon
+		},
 
-        data() {
-            return {
-                cogOutline,
-                cock: 'cock',
-                cock2: null,
+		data() {
+			return {
+				cogOutline,
+				Calendar,
+				ChatBubbles,
+				Bell,
+				Speaker,
+				Photo,
+				allEvents: []
+			}
+		},
 
-            }
-        },
+		computed:{
+			...mapStores(useMainStore),
+			...mapState(useMainStore, ['admin', 'id']),
+		},
 
-        computed:{
-            ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['admin']),
-        },
-        
-        methods:{
-            test(){
-                axios.post('http://localhost:3000/events',{
-                    "eventName": this.cock
-                })
-                console.log('post ' + this.cock)
-            },
-            test2(){
-                axios.get('http://localhost:3000/events').then((response) =>
-			{
-				this.cock2 = response.data
-			})
-            }
-        }
-    }
+		setup(){
+			const store = useMainStore()
+			return {store}
+		},
+
+		mounted() {
+			this.store.refresh()
+			axios.get('https://letny-projekt-be.onrender.com/events').then((response) => {
+				this.allEvents = response.data
+			});
+		}
+	}
 </script>
 
 <style lang="sass">
-    body
-        background-color: #1400FF
-        margin: 0px
+	a
+		text-decoration: none
+		color: inherit
 
-    a
-        text-decoration: none
-        color: inherit
+	.home-header
+		background: rgb(0,24,204)
+		background: linear-gradient(-45deg, rgba(0,24,204,1) 0%, rgba(0,9,74,1) 79%)
+		height: 145px
 
+	.title
+		display: inline-block
+		background: rgb(20,0,255) 
+		background: linear-gradient(315deg, rgba(20,0,255,1) 0%, rgba(12,0,153,1) 79%) 
+		width: 205px
+		height: 88px
+		color: white
+		font-size: 30px
+		border-radius: 25px
+		text-align: center
+		position: absolute
+		top: 22px
+		right: 22px
+	
+	.logo
+		background-color: #1400FF 
+		width: 88px 
+		height: 88px 
+		top: 22px
+		left: 22px
+		position: absolute
 
-    .grey
-        background-color: #D9D9D9
+	.selects
+		padding-left: 22px
+		padding-right: 22px 
+		padding-top: 39px
+		display: flex
+		flex-direction: column
+		align-items: center
 
-    .home-header
-        display: flex 
-        justify-content: center
-        padding-top: 37px
+		&__row
+			padding-bottom: 36px
+			display: flex
+			justify-content: center
 
-        img
-            padding-right: 10%
+			&__button
+				height: 150px 
+				width: 150px
+				background: rgb(20,0,255)
+				background: linear-gradient(315deg, rgba(20,0,255,1) 0%, rgba(12,0,153,1) 79%)
+				border-radius: 25px 
+				display: flex
+				flex-direction: column
+				align-items: center
+				justify-content: center
+				text-align: center
 
-        .admin-settings
-            width: 117px
-            height: 117px
+				p
+					font-size: 25px 
+					color: white 
+					padding-top: 10px
 
-            ion-icon
-                font-size: 95px 
-                padding-left: 11px
+				ion-icon
+					font-size: 64px 
+					margin-top: -20px
 
-            p
-                margin-top: -10px 
-                margin-left: 15px
-                font-size: 15px
-    
-    .event-name
-        width: 170px
-        height: 67px
-        margin: 63px auto 0
-
-        p
-            font-size: 24px 
-            text-align: center 
-            padding: 12% 0
-    
-    .selects
-        display: flex
-        justify-content: center 
-        align-items: center 
-        padding-top: 52px
-    
-    .grid
-        display: grid
-        grid-template-columns: auto auto auto
-        
-        .button
-            width: 90px
-            height: 90px
-            font-size: 18px
-            flex-wrap: wrap
-            margin: 15px
-
-            p
-                text-align: center
-                padding: 20% 0
-            
-            .event
-                padding: 10% 0
 </style>

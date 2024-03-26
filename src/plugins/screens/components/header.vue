@@ -1,64 +1,86 @@
 <template>
-    <ion-header>
-        <ion-toolbar>
-            <ion-title class="header">
-                <router-link :to="{name: link}">
-                    <div class="back-arrow"/>
-                </router-link>
-                <div class="title">
-                    <slot>cock</slot>
-                </div>
-            </ion-title>
-        </ion-toolbar>
-    </ion-header>
+	<!-- <ion-header>
+		<ion-toolbar>
+			<ion-title class="header">
+				<router-link :to="{name: link}">
+					<div class="back-arrow"/>
+				</router-link>
+				<div class="title">
+					<slot>cock</slot>
+				</div>
+			</ion-title>
+		</ion-toolbar>
+	</ion-header> -->
+
+	<div class="header">
+		<div class="header__title">
+			<router-link :to="{name: link}">
+				<ion-icon style="color: white; position: absolute; left: -100px; top: 3px" :icon="chevronBack"/>
+			</router-link>
+			<slot>cock</slot>
+		</div>
+	</div>
 </template>
 
 <script>
-    import {IonHeader, IonToolbar, IonTitle} from '@ionic/vue';
+	import {IonHeader, IonToolbar, IonTitle, IonIcon} from '@ionic/vue';
+	import {chevronBack} from 'ionicons/icons'
 
-    export default {
-        props:{
-            link:{
-                type: String,
-                required: false
-            }
-        },
+	export default {
+		props:{
+			link:{
+				type: String,
+				required: false
+			}
+		},
 
-        components: {
-            IonHeader,
-            IonToolbar,
-            IonTitle
-        },
+		components: {
+			IonHeader,
+			IonToolbar,
+			IonTitle,
+			IonIcon
+		},
+		
+		data(){
+			return{
+				chevronBack
+			}
+		},
 
-        methods:{
-            back(){
-                this.$router.go(-1)
-            }
-        }
-    }
+		methods:{
+			back(){
+				this.$router.go(-1)
+			}
+		}
+	}
 </script>
 
 <style lang="sass">
-    .header
-        background-color: #D9D9D9
-        height: 75px
-        font-size: 40px
-        text-align: center
-        color: black
-        position: sticky 
-        top: 0
+	.header
+		background: rgb(0,24,204)
+		background: linear-gradient(-45deg, rgba(0,24,204,1) 0%, rgba(0,9,74,1) 79%)
+		height: 75px
+		position: sticky
+		top: 0
+		text-align: center
 
-    .title
-        margin-right: 20px
+		&__title
+			color: white
+			font-size: 40px
+			position: absolute
+			top: 50%
+			left: 50%
+			transform: translate(-50%, -50%)
+			width: 50%
 
 
-    .back-arrow
-        border: solid black 
-        border-width: 0px 0px 3px 3px 
-        float: left 
-        width: 20px 
-        height: 20px 
-        transform: rotate(45deg)
-        margin-left: 5px
-        margin-top: 10px
+	.back-arrow
+		border: solid white 
+		border-width: 0px 0px 3px 3px 
+		float: left 
+		width: 20px 
+		height: 20px 
+		transform: rotate(45deg)
+		margin-left: 5px
+		margin-top: 10px
 </style>

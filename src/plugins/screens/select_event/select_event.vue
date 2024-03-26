@@ -15,15 +15,9 @@ export default {
     },
 
     mounted(){
-        axios.get('http://localhost:3000/events').then((response) => {
+        axios.get('https://letny-projekt-be.onrender.com/events').then((response) => {
             this.allEvents = response.data
         });
     },
 }
 </script>
-
-<style lang="sass">
-body
-    background-color: #1400FF
-    margin: 0px
-</style>

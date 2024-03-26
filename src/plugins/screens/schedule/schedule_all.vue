@@ -105,10 +105,6 @@
 </script>
 
 <style lang="sass">
-	body
-		background-color: #1400FF
-		margin: 0px
-
 	.header
 		position: sticky 
 		top: 0

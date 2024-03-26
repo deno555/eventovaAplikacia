@@ -8,7 +8,7 @@
     
     <ion-textarea :auto-grow="true" v-model="addDesc" class="create-desc" placeholder="Add Notification Description"/>
     <router-link :to="{name: 'Notifications'}">
-        <div class="create-button" @click="addNotif()">
+        <div class="create-button" @click="addNotif">
             <div class="tick"/>
         </div>
     </router-link>
@@ -16,6 +16,7 @@
 
 <script>
     import Header from '@/plugins/screens/components/header.vue'
+    import axios from 'axios'
     import { IonTextarea } from '@ionic/vue'
     import { mapStores, mapState } from 'pinia'
     import { useMainStore } from '@/plugins/stores/store.js'
@@ -37,27 +38,34 @@
 
         computed:{
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['notifications']),
+            ...mapState(useMainStore, ['notifications', 'id']),
         },
 
         methods:{
             addNotif(){
-                this.notifications.push({
-                    title: this.addTitle,
-                    desc: this.addDesc,
-                    time: this.addTime,
-                    id: this.notifications.length
+                axios.post(`https://letny-projekt-be.onrender.com/events/${this.id}/details/notifs`, {
+					notifications: {
+						title: this.addTitle,
+						description: this.addDesc,
+						time: this.addTime,
+						id: localStorage.getItem('notifications') ? JSON.parse(localStorage.getItem('notifications'))?.length + 1 : 1
+					}
+				}).then(console.log('pridany notif'))
+                const temp = JSON.parse(localStorage.getItem('notifications'))
+                temp.push({
+                    title: this.addTitle, 
+                    description: this.addDesc, 
+                    time: this.addTime, 
+                    id:localStorage.getItem('notifications') ? JSON.parse(localStorage.getItem('notifications'))?.length + 1 : 1
                 })
+
+                localStorage.setItem('notifications', JSON.stringify(temp))
             }
         }
     }
 </script>
 
 <style lang="sass">
-    body
-        background-color: #1400FF
-        margin: 0px
-
     .header
         position: sticky 
         top: 0

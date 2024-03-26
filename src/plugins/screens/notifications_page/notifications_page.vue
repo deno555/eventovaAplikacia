@@ -1,11 +1,11 @@
 <template>
     <Header :link="'Home'" class="header">Notifications</Header>
 
-    <div v-for="notification in notifications" :key="notification.id" class="notif">
-        <router-link :to="{name: 'Notifications-Detail', params: {id: notification.id}}">
+    <div v-for="notification in notifs" :key="notification.id" class="notif">
+        <router-link :to="{name: 'Notifications-Detail', params: {id: notification.id ? notification.id : 1}}">
             <div>
                 <div class="notif-title">{{ notification.title }}</div>
-                <div class="desc">{{ notification.desc }}</div>
+                <div class="desc">{{ notification.description }}</div>
                 <div class="time">{{ notification.time }}</div>
             </div>
         </router-link>
@@ -23,16 +23,31 @@
     import { mapStores, mapState } from 'pinia'
     import { useMainStore } from '@/plugins/stores/store.js'
 
-
     export default {
+
         components: {
             Header,
         },
 
+        data(){
+            return{
+                notifs: JSON.parse(localStorage.getItem('notifications'))
+            }
+        },
+
         computed:{
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['notifications', 'admin']),
+            ...mapState(useMainStore, ['admin']),
         },
+
+        setup(){
+            const store = useMainStore()
+            return {store}
+        },
+
+        mounted(){
+            this.store.refreshNotifications()
+        }
     }
 </script>
 
@@ -41,17 +56,17 @@
         background-color: #1400FF
         margin: 0px
 
-    .header
-        position: sticky 
-        top: 0
-
     .notif
-        border-bottom: solid black 1px 
+        border-bottom: solid black 2px 
         padding-top: 15px
+        background: rgb(12,0,153)
+        background: linear-gradient(90deg, rgba(12,0,153,1) 0%, rgba(20,0,255,1) 75%)
 
     .notif-title
         font-size: 25px
         padding-left: 10px
+        color: white
+        text-transform: capitalize
 
     .desc
         font-size: 15px 
