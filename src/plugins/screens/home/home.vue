@@ -1,6 +1,6 @@
 <template>
 	<div class="home-header">
-		<img class="logo" src="https://images-ext-1.discordapp.net/external/mfkb-IbLvGU-dQrdxBVYfMDPakR0-YaMl-LLm1HtBU0/https/mosaic.fxtwitter.com/jpeg/1771976260295516602/GJdS-UMWYAAoi8J/GJdS-37WEAAswNQ?format=webp&width=915&height=670">
+		<img class="logo" src="https://cdn.discordapp.com/attachments/768503373363806218/1222315877681201152/b36cbf613a095a9441647480c6b40f5d8ab4cc08-731x731.png?ex=6615c55e&is=6603505e&hm=1e0b801aa3fcbbda93d19784a49294b2824c1b7be6ef7ee8028fed2a31897cf9&">
 		<div class="title">
 			<p>{{ allEvents.find(event => event?.id == id)?.name }}</p>
 		</div>

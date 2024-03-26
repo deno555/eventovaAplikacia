@@ -1,0 +1,8 @@
+{
+  "appId": "letny.projekt",
+  "appName": "letny-projekt",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

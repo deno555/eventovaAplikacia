@@ -1,0 +1,7 @@
+{
+  "name": "letny-projekt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
