@@ -53,7 +53,6 @@
 
 <style lang="sass">
     body
-        background-color: #1400FF
         margin: 0px
 
     .notif

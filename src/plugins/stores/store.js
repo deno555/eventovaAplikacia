@@ -10,7 +10,7 @@ export const useMainStore = defineStore('myStore',{
             feedback:[],
             photos:[],
             schedule:[],
-            id: 1,
+            id: localStorage.getItem('id'),
         }
     },
 

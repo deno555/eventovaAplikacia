@@ -4,11 +4,13 @@
 
 		<div class="switchContainer">
 			<div @click="eventSwitch = false" :class="{'on' : !eventSwitch, 'off' : eventSwitch}" class="switch">Calendar</div>
-			<div @click="eventSwitch = true" :class="{'on' : eventSwitch, 'off' : !eventSwitch}" class="switch">All events</div>
+			<router-link :to="{name: 'ScheduleAll'}">
+				<div @click="eventSwitch = true" :class="{'on' : eventSwitch, 'off' : !eventSwitch}" class="switch">All events</div>
+			</router-link>
 		</div>
 
 		<div class="dayContainer" style="overflow-x: scroll; white-space: nowrap;">
-			<div class="day" v-for="date in uniqueDates" :key="date" @click="showEventsForDate(date)">
+			<div :class="{ 'dayActive': selectedDate == date, 'day': selectedDate != date }" v-for="date in uniqueDates" :key="date" @click="showEventsForDate(date)">
 				<p>{{ formatDateDDMMYYYY(date) }}</p>
 				<p>{{ getDayOfWeek(date) }}</p>
 			</div>
@@ -19,7 +21,7 @@
 		<tbody>
 			<tr v-for="time in times" :key="time" style="height: 100px">
 				<td style="width: 10%; border: white 1px solid;">{{ formatTime(time) }}</td>
-				<td :class="{ 'filled-cell': hasContent(time, 0) }" style="width: 20%; border-bottom: white 1px solid">{{ getEventForTime(time, 0) }}</td>
+				<td :class="{ 'filled-cell': hasContent(time, 0) }" style="width: 20%; border-bottom: white 1px solid;">{{ getEventForTime(time, 0) }}</td>
 				<td :class="{ 'filled-cell': hasContent(time, 1) }" style="width: 20%; border-bottom: white 1px solid;">{{ getEventForTime(time, 1) }}</td>
 				<td :class="{ 'filled-cell': hasContent(time, 2) }" style="width: 20%; border-bottom: white 1px solid;">{{ getEventForTime(time, 2) }}</td>
 				<td :class="{ 'filled-cell': hasContent(time, 3) }" style="width: 15%; border-bottom: white 1px solid; font-size: 40px; font-weight: 800; padding-left: 25px;">{{ hasContent(time, 3) ? '+' : '' }}</td>
@@ -161,6 +163,9 @@
 </script>
 
 <style lang="sass">
+	a
+		color: white
+	
 	.header
 		position: sticky 
 		top: 0
@@ -203,14 +208,15 @@
 			margin: 2px 10px
 
 	.dayActive
-		padding: 1px
-		color: black !important
-		background-color: white !important
+		margin: 10px
+		padding: 5px
+		color: black
+		background-color: white
 		font-size: 15px
 		width: fit-content
 		height: fit-content
 		display: inline-block
-		margin: 5px
+		border-radius: 5px
 
 		p
 			margin: 2px 10px

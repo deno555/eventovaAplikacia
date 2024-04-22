@@ -8,8 +8,11 @@
 		<div>
 			<p style="display: inline-block; font-size: 20px;">event name</p>
 			<input v-model="name">
+			<p style="font-size: 20px;">event logo</p>
+			<input v-model="logo">
 			<button @click="addEvent">add</button>
 		</div>
+
 		<div>
 			<p style="display: inline-block; font-size: 20px;">delete based on id</p>
 			<input v-model="delete_id">
@@ -65,6 +68,7 @@ export default {
 			id: 1,
 			delete_id: 1,
 			eventDetail: null,
+			logo: ''
 		}
 	},
 
@@ -91,7 +95,10 @@ export default {
 		addEvent(){
 			axios.post('https://letny-projekt-be.onrender.com/events', {
 				"name": this.name,
+				"logo": this.logo
 			})
+			console.log(this.name)
+			console.log(this.logo)
 		},
 
 		deleteEvent(){
@@ -108,14 +115,14 @@ export default {
 				}
 			})
 		},
-		test(){
-			localStorage.setItem('cock', 'cock')
-		}
 	}
 }
 </script>
 
 <style lang="sass">
+body
+	background: blue
+
 a
 	text-decoration: none
 	color: inherit

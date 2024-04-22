@@ -183,3 +183,8 @@
 		 }
 	}
 </script>
+
+<style lang="sass">
+body
+	background: blue
+</style>

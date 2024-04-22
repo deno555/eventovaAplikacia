@@ -8,30 +8,18 @@
 		<div @click="eventSwitch = true" :class="{'on' : eventSwitch, 'off' : !eventSwitch}" class="switch">All events</div>
 	</div>
 
-	<div class="dayContainer" style="overflow-x: scroll; white-space: nowrap;">
-		<div class="day" v-for="date in uniqueDates" :key="date" @click="showEventsForDate(date)">
-			<p>{{ formatDateAndDay(date).formattedDate }}</p>
-			<p>{{ formatDateAndDay(date).dayOfWeek }}</p>
+	<div v-for="event in schedule" :key="event.id" class="notif">
+		<div>
+			<div class="notif-title">{{ event.name }}</div>
+			<div class="desc">{{ formatDateAndDay(event.date).formattedDate }}</div>
+			<div class="time">{{ formatTime(event.start) + ' - ' + formatTime(event.end) }}</div>
 		</div>
-	</div>
-
-	<div v-for="day in schedule" :key="day">
-		<div v-if="JSON.stringify(selectedDate) == JSON.stringify(day.date)" style="background-color: cyan; border: 1px solid black; padding: 0 10px">
-			<div style="font-size: 20px;">{{ day.name }}</div>
-			<div style="font-size: 20px;">{{ formatTime(day.start) + " - " + formatTime(day.end) }}</div>
-		</div>
-	</div>
-
-	<div>
-		<button @click="createEvent">cock</button>
-		{{ test }}
 	</div>
 </template>
 
 <script>
 	import Header from '@/plugins/screens/components/header.vue'
 
-	import { mapStores, mapState } from 'pinia'
 	import { useMainStore } from '@/plugins/stores/store.js'
 	import axios from 'axios';
 
@@ -44,8 +32,13 @@
 			return {
 				eventSwitch: true,
 				selectedDate: null,
-				test: []
+				schedule: JSON.parse(localStorage.getItem('schedule')) ? JSON.parse(localStorage.getItem('schedule')) : [],
 			}
+		},
+
+		setup(){
+			const store = useMainStore()
+			return {store}
 		},
 
 		mounted() {
@@ -53,15 +46,11 @@
 				this.selectedDate = this.schedule[0].date;
 			}
 
-			axios.get('http://localhost:3001/events/1/data').then((response) =>
-			{
-				this.test = response.data
-			})
+			this.store.refreshSchedule()
+
 		},
 		
 		computed: {
-			...mapStores(useMainStore),
-			...mapState(useMainStore, ['schedule']),
 
 			uniqueDates() {
 				return [...new Set(this.schedule.map(item => item.date.toISOString().split('T')[0]))];
@@ -105,6 +94,9 @@
 </script>
 
 <style lang="sass">
+	a
+		color: white
+
 	.header
 		position: sticky 
 		top: 0
@@ -113,38 +105,82 @@
 		font-size: 20px
 		text-align: center
 		color: white
-		position: sticky 
-		top: 0
-
-		a
-			color: white	
-
 	
 	.switch
 		padding: 15px 0 
-		display: inline-block 
+		display: inline-block
 		width: 50%
 
 	.on
-		background-color: #4F4F4F
+		background: rgb(12,0,153)
+		background: linear-gradient(135deg, rgba(12,0,153,1) 0%, rgba(20,0,255,1) 79%)
 
 	.off
-		background-color: #757575
+		background: rgb(0,58,102)
+		background: linear-gradient(135deg, rgba(0,58,102,1) 0%, rgba(0,116,204,1) 79%)
 
 	.dayContainer
-		height: 55px
-		background-color: #D9D9D9
+		height: 75px
+		background: rgb(0,24,204)
+		background: linear-gradient(315deg, rgba(0,24,204,1) 0%, rgba(0,9,74,1) 75%)
 
 	.day
-		padding: 1px
+		margin: 10px
+		padding: 5px
 		color: white
 		background-color: black
 		font-size: 15px
 		width: fit-content
 		height: fit-content
 		display: inline-block
-		margin: 5px
+		border-radius: 5px
 
 		p
 			margin: 2px 10px
+
+	.dayActive
+		margin: 10px
+		padding: 5px
+		color: black
+		background-color: white
+		font-size: 15px
+		width: fit-content
+		height: fit-content
+		display: inline-block
+		border-radius: 5px
+
+		p
+			margin: 2px 10px
+			
+	.filled-cell
+		background-color: #1400FF
+		border-bottom: #1400FF 1px solid !important
+		border-right: white 1px solid
+
+	.notif
+		border-bottom: solid black 2px 
+		padding-top: 15px
+		background: rgb(12,0,153)
+		background: linear-gradient(90deg, rgba(12,0,153,1) 0%, rgba(20,0,255,1) 75%)
+
+	.notif-title
+		font-size: 25px
+		padding-left: 10px
+		color: white
+		text-transform: capitalize
+
+	.desc
+		font-size: 15px 
+		color: white 
+		padding-left: 10px
+		text-decoration: none
+		width: 97% 
+		word-break: break-all
+
+	.time
+		font-size: 15px 
+		color: white
+		text-align: right 
+		padding: 10px 7px
+		text-decoration: none
 </style>

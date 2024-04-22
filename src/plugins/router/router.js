@@ -3,6 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
+    name: 'Select',
+    component: () => import('@/plugins/screens/select_event/select_event.vue')
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: () => import('@/plugins/screens/home/home.vue')
   },

@@ -69,5 +69,4 @@
         --padding-start: 20px
         --padding-end: 20px
         --highlight-color-focused: none
-        text-transform: capitalize
 </style>

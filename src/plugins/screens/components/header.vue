@@ -1,20 +1,7 @@
 <template>
-	<!-- <ion-header>
-		<ion-toolbar>
-			<ion-title class="header">
-				<router-link :to="{name: link}">
-					<div class="back-arrow"/>
-				</router-link>
-				<div class="title">
-					<slot>cock</slot>
-				</div>
-			</ion-title>
-		</ion-toolbar>
-	</ion-header> -->
-
 	<div class="header">
 		<div class="header__title">
-			<router-link :to="{name: link}">
+			<router-link :to="{name: link}" v-if="link">
 				<ion-icon style="color: white; position: absolute; left: -100px; top: 3px" :icon="chevronBack"/>
 			</router-link>
 			<slot>cock</slot>

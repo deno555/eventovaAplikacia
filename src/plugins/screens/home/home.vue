@@ -1,9 +1,12 @@
 <template>
 	<div class="home-header">
-		<img class="logo" src="https://cdn.discordapp.com/attachments/768503373363806218/1222315877681201152/b36cbf613a095a9441647480c6b40f5d8ab4cc08-731x731.png?ex=6615c55e&is=6603505e&hm=1e0b801aa3fcbbda93d19784a49294b2824c1b7be6ef7ee8028fed2a31897cf9&">
-		<div class="title">
-			<p>{{ allEvents.find(event => event?.id == id)?.name }}</p>
-		</div>
+		<img class="logo" :src="allEvents.find(event => event?.id == id)?.logo">
+		<router-link :to="{name: 'Select'}">
+			<div class="title">
+				<p>{{ allEvents.find(event => event?.id == id)?.name }}</p>
+			</div>
+		</router-link>
+		<p style="color: white; position: absolute; right: 60px; top: 100px">tap to change event</p>
 	</div>
 
 	<div class="selects">
@@ -67,6 +70,7 @@
 	import Bell from '@/plugins/assets/notifications.svg'
 	import Speaker from '@/plugins/assets/vector.svg'
 	import Photo from '@/plugins/assets/vector-1.svg'
+import { routerKey } from 'vue-router'
 
 	export default {
 		components:{
@@ -100,7 +104,7 @@
 			axios.get('https://letny-projekt-be.onrender.com/events').then((response) => {
 				this.allEvents = response.data
 			});
-		}
+		},
 	}
 </script>
 
